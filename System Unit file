@@ -1,0 +1,21 @@
+# got to /etc/systemd/system/gitlab-ce.service
+
+[Unit]
+Description=Gitlab-ce Service
+After=docker.service
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+User=root
+Group=root
+StandardOutput=null
+StandardError=null
+WorkingDirectory=/data/source/2022-01-02
+ExecStart=/usr/bin/docker-compose --env-file /etc/environment -p gitlab-ce  up
+ExecStop=/usr/bin/docker-compose --env-file /etc/environment -p gitlab-ce   down
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
